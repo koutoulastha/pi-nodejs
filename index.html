@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+	$(function() {
+		var socket = io();
+		socket.on('led', function (data) {
+			
+			if(data ===1){
+				$('#led').prop('checked', true);
+			}
+			else
+				$('#led').prop('checked', false);
+			
+		});
+
+		socket.on('test', function(data) {
+			console.log('Test received ' + data);
+
+		});
+		
+		$('#led').change(function(){
+			if ($('#led').is(":checked")){
+				socket.emit('led', 1);
+			}
+			else{
+				socket.emit('led', 0);
+			}
+			
+		});
+	});
+</script>
+
+
+
+
+<html>
+<body>
+<h1>Control LED light</h1>
+<input id="led" type="checkbox">LED
+</body>
+</html>
+
