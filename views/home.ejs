@@ -1,0 +1,23 @@
+<% include partials/header.ejs %>
+<% if (!user) { %>
+	<p>Welcome! Please <a href="/login">log in</a>.</p>
+<% } else { %>
+	<p>Hello, <%= user.username %>. View your <a href="/profile">profile</a>.</p>
+<% } %>
+
+<div>
+<% for (var i=1; i<21; i++) { %>
+	<button type="button" class="btn btn-default" id="b<%=i %>">Button <%=i %> </button> <br>
+<% } %>
+
+
+</div>
+
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+	$('button').click( function() {
+		alert('Clicked button ' + this.id );
+});
+</script>
+
+<% include partials/footer.ejs %>
