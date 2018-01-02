@@ -2,6 +2,7 @@ var express = require('express');
 var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
 var db = require('./db');
+//var map = require('./map');
 
 
 // Configure the local strategy for use by Passport.
@@ -63,6 +64,7 @@ app.use(passport.session());
 
 // Define routes.
 app.get('/',
+	require('connect-ensure-login').ensureLoggedIn(),
   function(req, res) {
     res.render('home', { user: req.user });
   });

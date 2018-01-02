@@ -5,18 +5,31 @@
 	<p>Hello, <%= user.username %>. View your <a href="/profile">profile</a>.</p>
 <% } %>
 
-<div>
-<% for (var i=1; i<21; i++) { %>
-	<button type="button" class="btn btn-default" id="b<%=i %>">Button <%=i %> </button> <br>
-<% } %>
 
-
+<div class="panel panel-default">
+	 <div class="panel-heading">Panel heading without title</div>
+	<div class="btn-group-vertical class="panel-body"">
+	<% for (var i=1; i<21; i++) { %>
+		<button type="button" class="btn btn-success" id="b<%=i %>">Light <%=i %> </button>
+</br>
+	<% } %>
+	</div>
 </div>
 
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
 	$('button').click( function() {
-		alert('Clicked button ' + this.id );
+		//alert('Clicked button ' + this.id );
+		if( $(this).hasClass('btn-danger') ) {
+			$(this).removeClass('btn-danger');
+			$(this).addClass('btn-success');
+			//$(this).html("OFF");
+		}
+		else {
+			$(this).removeClass('btn-success');
+			$(this).addClass('btn-danger');
+//$(this).html("ON");
+		}
 });
 </script>
 
