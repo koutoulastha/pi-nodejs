@@ -50,6 +50,9 @@ var app = express();
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
+//set public folder
+app.use(express.static('public'));
+
 // Use application-level middleware for common functionality, including
 // logging, parsing, and session handling.
 app.use(require('morgan')('combined'));
@@ -74,14 +77,14 @@ app.get('/login',
   function(req, res){
     res.render('login');
   });
-  
-app.post('/login', 
+
+app.post('/login',
   require('connect-ensure-login').ensureLoggedOut(),
   passport.authenticate('local', { failureRedirect: '/login' }),
   function(req, res) {
     res.redirect('/');
   });
-  
+
 app.get('/logout',
   function(req, res){
     req.logout();
