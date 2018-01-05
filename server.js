@@ -1,3 +1,10 @@
+var buttons = [
+  {id: 1 , name: "Kitchen"} ,
+  {id: 2 , name: "Bedroom"} ,
+  {id: 3 , name: "Living Room"} ,
+  {id: 4 , name: "Garden"}
+];
+
 var express = require('express');
 var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
@@ -49,6 +56,7 @@ var app = express();
 // Configure view engine to render EJS templates.
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
+//app.engine('html', require('ejs').renderFile);
 
 //set public folder
 app.use(express.static('public'));
@@ -69,7 +77,7 @@ app.use(passport.session());
 app.get('/',
 	require('connect-ensure-login').ensureLoggedIn(),
   function(req, res) {
-    res.render('home', { user: req.user });
+    res.render('home', { user: req.user , buttons: buttons} );
   });
 
 app.get('/login',

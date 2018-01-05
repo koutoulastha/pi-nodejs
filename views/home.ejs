@@ -9,14 +9,13 @@
 <div class="panel panel-default">
 	 <div class="panel-heading">Panel heading without title</div>
 	<div class="btn-group-vertical class="panel-body"">
-	<% for (var i=1; i<21; i++) { %>
-		<button type="button" class="btn btn-success" id="b<%=i %>">Light <%=i %> </button>
+	<% for(var i=0; i<buttons.length; i++) { %>
+		<button type="button" class="btn btn-success" id="b<%=buttons[i].id %>"><%=buttons[i].name %> </button>
 </br>
 	<% } %>
 	</div>
 </div>
 
-<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
 	$('button').click( function() {
 		//alert('Clicked button ' + this.id );
