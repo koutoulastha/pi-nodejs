@@ -2,15 +2,41 @@ var buttons = [
   {id: 1 , name: "Kitchen"} ,
   {id: 2 , name: "Bedroom"} ,
   {id: 3 , name: "Living Room"} ,
-  {id: 4 , name: "Garden"}
+  {id: 4 , name: "Garden"} ,
+  {id: 1 , name: "Kitchen"} ,
+  {id: 2 , name: "Bedroom"} ,
+  {id: 3 , name: "Living Room"} ,
+  {id: 4 , name: "Garden"} ,
+  {id: 1 , name: "Kitchen"} ,
+  {id: 2 , name: "Bedroom"} ,
+  {id: 3 , name: "Living Room"} ,
+  {id: 4 , name: "Garden"} ,
+  {id: 1 , name: "Kitchen"} ,
+  {id: 2 , name: "Bedroom"} ,
+  {id: 3 , name: "Living Room"} ,
+  {id: 4 , name: "Garden"} ,
+  {id: 1 , name: "Kitchen"} ,
+  {id: 2 , name: "Bedroom"} ,
+  {id: 3 , name: "Living Room"} ,
+  {id: 4 , name: "Garden"} ,
+  {id: 1 , name: "Kitchen"} ,
+  {id: 2 , name: "Bedroom"} ,
+  {id: 3 , name: "Living Room"} ,
+  {id: 4 , name: "Garden"} ,
 ];
 
+var port = 3000;
 var express = require('express');
 var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
 var db = require('./db');
 //var map = require('./map');
-
+// Create a new Express application.
+var app = express();
+//app.listen(port);
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+http.listen(port);
 
 // Configure the local strategy for use by Passport.
 //
@@ -50,8 +76,7 @@ passport.deserializeUser(function(id, cb) {
 
 
 
-// Create a new Express application.
-var app = express();
+
 
 // Configure view engine to render EJS templates.
 app.set('views', __dirname + '/views');
@@ -105,4 +130,28 @@ app.get('/profile',
     res.render('profile', { user: req.user });
   });
 
-app.listen(3000);
+//setting socket.io
+var connectedClients = 0;
+io.on('connection', function(socket){
+  //sda
+  connectedClients++;
+  console.log('New user, total: ' + connectedClients);
+  socket.on('led', function(msg){
+    io.emit('led',1);
+
+
+  });
+
+  socket.on('disconnect', function(){
+    connectedClients--;
+    console.log('User dc, total: ' + connectedClients);
+  });
+
+
+});
+
+setInterval(function(){
+  if(connectedClients){
+    io.emit('led', connectedClients);
+  }
+}, 2000);

@@ -5,17 +5,29 @@
 	<p>Hello, <%= user.username %>. View your <a href="/profile">profile</a>.</p>
 <% } %>
 
+<div class="container">
+	<div class="row">
 
-<div class="panel panel-default">
-	 <div class="panel-heading">Panel heading without title</div>
-	<div class="btn-group-vertical class="panel-body"">
-	<% for(var i=0; i<buttons.length; i++) { %>
-		<button type="button" class="btn btn-success" id="b<%=buttons[i].id %>"><%=buttons[i].name %> </button>
-</br>
-	<% } %>
-	</div>
+
+		<div class="btn-group-vertical col-sm">
+			<% for(var i=0; i<(buttons.length/2); i++) { %>
+				<button type="button" class="btn btn-success btn-lg" id="b<%=buttons[i].id %>"><%=buttons[i].name %> </button>
+				</br>
+			<% } %>
+		</div>
+
+
+		<div class="btn-group-vertical col-sm">
+			<% for( i=(buttons.length/2); i<buttons.length; i++) { %>
+				<button type="button" class="btn btn-success btn-lg" id="b<%=buttons[i].id %>"><%=buttons[i].name %> </button>
+			</br>
+			<% } %>
+		</div>
+
+
+
 </div>
-
+</div>
 <script>
 	$('button').click( function() {
 		//alert('Clicked button ' + this.id );
@@ -30,6 +42,14 @@
 //$(this).html("ON");
 		}
 });
+
+  var socket = io();
+  socket.on('led', function(data) {
+	console.log(data);
+
+  });
+
+
 </script>
 
 <% include partials/footer.ejs %>
