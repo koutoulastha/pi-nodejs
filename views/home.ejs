@@ -1,9 +1,4 @@
 <% include partials/header.ejs %>
-<% if (!user) { %>
-	<p>Welcome! Please <a href="/login">log in</a>.</p>
-<% } else { %>
-	<p>Hello, <%= user.username %>. View your <a href="/profile">profile</a>.</p>
-<% } %>
 
 <div class="container">
 	<div class="row">
@@ -18,7 +13,7 @@
 
 
 		<div class="btn-group-vertical col-sm">
-			<% for( i=(buttons.length/2); i<buttons.length; i++) { %>
+			<% for( i; i<buttons.length; i++) { %>
 				<button type="button" class="btn btn-success btn-lg" id="b<%=buttons[i].id %>"><%=buttons[i].name %> </button>
 			</br>
 			<% } %>

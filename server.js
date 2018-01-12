@@ -23,6 +23,8 @@ var buttons = [
   {id: 2 , name: "Bedroom"} ,
   {id: 3 , name: "Living Room"} ,
   {id: 4 , name: "Garden"} ,
+  {id: 4 , name: "Garden"}
+
 ];
 
 var port = 3000;
