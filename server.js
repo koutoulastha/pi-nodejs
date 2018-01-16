@@ -27,6 +27,12 @@ var buttons = [
 
 ];
 
+var rolls = [
+  {id: 1 , name: "Kitchen"} ,
+  {id: 2 , name: "Bedroom"} ,
+
+];
+
 var port = 3000;
 var express = require('express');
 var passport = require('passport');
@@ -76,10 +82,6 @@ passport.deserializeUser(function(id, cb) {
 });
 
 
-
-
-
-
 // Configure view engine to render EJS templates.
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
@@ -93,7 +95,11 @@ app.use(express.static('public'));
 app.use(require('morgan')('combined'));
 app.use(require('cookie-parser')());
 app.use(require('body-parser').urlencoded({ extended: true }));
-app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+var session = require('express-session')({secret: 'keyboard cat', resave: false, saveUninitialized: false });
+
+var sharedsession = require("express-socket.io-session");
+
+app.use(session);
 
 // Initialize Passport and restore authentication state, if any, from the
 // session.
@@ -134,10 +140,18 @@ app.get('/profile',
 
 //setting socket.io
 var connectedClients = 0;
+
+io.use(sharedsession(session, {
+    autoSave:true
+}));
+
 io.on('connection', function(socket){
   //sda
-  connectedClients++;
-  console.log('New user, total: ' + connectedClients);
+  console.log(socket.handshake.session.passport);
+  if (socket.handshake.session.passport) {
+    connectedClients++;
+    console.log('New user, total: ' + connectedClients);
+  }
   socket.on('led', function(msg){
     io.emit('led',1);
 
@@ -145,8 +159,10 @@ io.on('connection', function(socket){
   });
 
   socket.on('disconnect', function(){
-    connectedClients--;
-    console.log('User dc, total: ' + connectedClients);
+    if (socket.handshake.session.passport) {
+      connectedClients--;
+      console.log('User dc, total: ' + connectedClients);
+    }
   });
 
 
